@@ -1,0 +1,7 @@
+plugin.tx_form {
+    settings {
+        yamlConfigurations {
+            100 = EXT:captchaeu-typo3/Configuration/Form/CaptchaEUFormSetup.yaml
+        }
+    }
+}

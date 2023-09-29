@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+    public: false
+
+  CaptchaEU\Typo3\:
+    resource: '../Classes/*'
+
+  CaptchaEU\Typo3\Service\Validator:
+    public: true
+    shared: false

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+	<file source-language="en" date="2023-09-27T10:05:44+01:00">
+		<body>
+			<trans-unit id="error.solution_invalid">
+				<source>Captcha.eu solution is invalid</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.tab">
+				<source>Captcha.eu</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.key_public">
+				<source>Public Key</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.key_rest">
+				<source>REST Key</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.host">
+				<source>Captcha.eu Host</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

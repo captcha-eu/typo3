@@ -1,0 +1,89 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+	xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers"
+	xmlns:captchaeu="http://typo3.org/ns/CaptchaEU/Typo3/ViewHelpers"
+	data-namespace-typo3-fluid="true">
+
+	<formvh:renderRenderable renderable="{element}">
+		<f:variable name="conf" value="{captchaeu:configuration()}" />
+
+		<f:if condition="{conf.enabled}">
+			<f:then>
+				<f:asset.script defer="1" async="1" identifier="captchaeu" src="<f:format.htmlspecialchars>{conf.SDKJSPath}</f:format.htmlspecialchars>" />
+
+				<f:render partial="Field/Field" arguments="{element: element, doNotShowLabel: 1}" contentAs="elementContent">
+					<f:form.hidden
+						property="{element.identifier}"
+						id="{element.uniqueIdentifier}"
+						value="1"
+						additionalAttributes="{formvh:translateElementProperty(element: element, property: 'fluidAdditionalAttributes')}"
+					/>
+					<script>
+						// ensures KROT is loaded
+						function ensureKROTLoaded(callback) {
+							const checkVariable = () => {
+								// check availabilty
+								if (window['KROT'] !== undefined) {
+									// clear interval & trigger callback
+									clearInterval(checkInterval);
+									callback();
+								}
+							};
+							const checkInterval = setInterval(checkVariable, 200);
+						}
+						// wait for dom content to load
+						document.addEventListener('DOMContentLoaded', function () {
+							// ensure KROT is available
+							ensureKROTLoaded(function() {
+								// KROT setup
+								KROT.setup('<f:format.htmlspecialchars>{conf.keyPublic}</f:format.htmlspecialchars>');
+								KROT.KROT_HOST = '<f:format.htmlspecialchars>{conf.host}</f:format.htmlspecialchars>';
+
+								var input = document.getElementById('<f:format.htmlspecialchars>{element.uniqueIdentifier}</f:format.htmlspecialchars>');
+								var form = input.closest('form');
+								var btn = form.querySelector('[type="submit"]');
+
+								// intercept form
+								KROT.interceptForm(form, true);
+
+								function btnClickHandler(e) {
+									// return if already intercepted
+									if(e.intercepted) return;
+
+									// prevent default
+									e.preventDefault();
+
+									// disable
+									btn.disabled = true;
+
+									// RUN captcha
+									KROT.getSolution().then((sol) => {
+										// write solution to hidden field
+										form.querySelector('#<f:format.htmlspecialchars>{element.uniqueIdentifier}</f:format.htmlspecialchars>').value = JSON.stringify(sol);
+
+										// re-enable button
+										btn.disabled = false;
+										btn.removeAttribute('disabled');
+
+										// prevent
+										e.intercepted = true;
+
+										// remove event
+										btn.removeEventListener('click', btnClickHandler);
+
+										// submit the form
+										btn.click();
+									});
+
+									// add eventlistener
+									btn.addEventListener('click', btnClickHandler);
+								}
+								// add eventlistener
+								btn.addEventListener('click', btnClickHandler);
+							});
+						});
+					</script>
+				</f:render>
+			</f:then>
+		</f:if>
+	</formvh:renderRenderable>
+</html>

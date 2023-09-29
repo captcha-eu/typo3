@@ -1,0 +1,28 @@
+TYPO3:
+  CMS:
+    Form:
+      prototypes:
+        standard:
+          formEditor:
+            formEditorPartials:
+              FormElement-CaptchaEU: 'Stage/SimpleTemplate'
+
+          formElementsDefinition:
+            Form:
+              renderingOptions:
+                templateRootPaths:
+                  100: 'EXT:captchaeu-typo3/Resources/Private/Frontend/Templates/'
+                partialRootPaths:
+                  100: 'EXT: captchaeu-typo3/Resources/Private/Frontend/Partials/'
+                layoutRootPaths:
+                  100: 'EXT: captchaeu-typo3/Resources/Private/Frontend/Layouts/'
+
+            CaptchaEU:
+              __inheritances:
+                10: 'TYPO3.CMS.Form.mixins.formElementMixins.CaptchaEUMixin'
+      mixins:
+        formElementMixins:
+          CaptchaEUMixin:
+            __inheritances:
+              10: 'TYPO3.CMS.Form.mixins.formElementMixins.FormElementMixin'
+
