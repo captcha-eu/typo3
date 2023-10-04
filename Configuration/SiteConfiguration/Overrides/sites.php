@@ -2,7 +2,7 @@
 
 call_user_func(
 	static function() {
-		$lll = 'LLL:EXT:captchaeu-typo3/Resources/Private/Language/locallang.xlf:';
+		$lll = 'LLL:EXT:captchaeu_typo3/Resources/Private/Language/locallang.xlf:';
 
 		// Public Key
 		$GLOBALS['SiteConfiguration']['site']['columns']['captchaeu_key_public'] = [

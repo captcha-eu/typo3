@@ -1,7 +1,7 @@
 <?php
 
 /***************************************************************
- * Extension Manager/Repository config for ext "captchaeu-typo3"
+ * Extension Manager/Repository config for ext "captchaeu_typo3"
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = [

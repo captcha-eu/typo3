@@ -10,7 +10,7 @@ $iconRegistry->registerIcon(
     'captchaeu-icon',
     \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
     [
-        'source' => 'EXT:captchaeu-typo3/Resources/Public/Icons/captchaeu-icon.svg'
+        'source' => 'EXT:captchaeu_typo3/Resources/Public/Icons/captchaeu-icon.svg'
     ]
 );
 
@@ -18,9 +18,9 @@ call_user_func(function() {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup(
         trim('
         plugin.tx_form.settings.yamlConfigurations {
-            100 = EXT:captchaeu-typo3/Configuration/Form/CaptchaEUFormSetup.yaml
+            100 = EXT:captchaeu_typo3/Configuration/Form/CaptchaEUFormSetup.yaml
         }
         module.tx_form.settings.yamlConfigurations {
-            100 = EXT:captchaeu-typo3/Configuration/Form/CaptchaEUFormSetup.yaml
+            100 = EXT:captchaeu_typo3/Configuration/Form/CaptchaEUFormSetup.yaml
         }'));
 });

@@ -19,7 +19,7 @@ class FormValidator extends AbstractValidator
 		// check if solution is valid
 		if (!$isValid) {
 			// invalid => add error
-			$this->addError($this->translateErrorMessage('error.solution_invalid', 'captchaeu-typo3'), 1695723714);
+			$this->addError($this->translateErrorMessage('error.solution_invalid', 'captchaeu_typo3'), 1695723714);
 		}
 	}
 
