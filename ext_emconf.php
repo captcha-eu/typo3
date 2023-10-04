@@ -1,7 +1,7 @@
 <?php
 
 /***************************************************************
- * Extension Manager/Repository config for ext "captchaeu-typo3"
+ * Extension Manager/Repository config for ext "captchaeu_typo3"
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = [
@@ -11,7 +11,7 @@ $EM_CONF[$_EXTKEY] = [
 	'author' => 'Captcha.eu',
 	'author_email' => 'hello@captcha.eu',
 	'state' => 'beta',
-	'version' => '1.0.1',
+	'version' => '1.0.2',
 	'constraints' => [
 		'depends' => [
 			'typo3' => '11.5.0-12.4.99'

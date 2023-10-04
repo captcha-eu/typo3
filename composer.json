@@ -39,7 +39,7 @@
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "captchaeu-typo3"
+			"extension-key": "captchaeu_typo3"
 		}
 	}
 }

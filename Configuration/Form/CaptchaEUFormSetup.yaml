@@ -21,7 +21,7 @@ TYPO3:
             Form:
               renderingOptions:
                 partialRootPaths:
-                  1695632552522: 'EXT:captchaeu-typo3/Resources/Private/FormFramework/Partials/'
+                  1695632552522: 'EXT:captchaeu_typo3/Resources/Private/FormFramework/Partials/'
 
             # Backend Display
             # Detail View
