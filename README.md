@@ -3,4 +3,4 @@ TYPO3 extension for captcha.eu see <a href="https://docs.captcha.eu/typo3-instal
 
 
 # Credits
-This extension is heavily inspired by the great work from the folks at [Studio Mitte](https://studiomitte.com) checkout out there other extensions [here](https://www.studiomitte.com/loesungen/typo3)
+This extension is inspired by the great work from the folks at [Studio Mitte](https://studiomitte.com) checkout out there other extensions [here](https://www.studiomitte.com/loesungen/typo3)
