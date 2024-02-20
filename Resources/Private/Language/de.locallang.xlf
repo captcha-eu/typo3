@@ -3,7 +3,7 @@
 	<file source-language="en" target-language="de" date="2023-09-27T10:05:44+01:00">
 		<body>
 			<trans-unit id="error.solution_invalid">
-				<source>Captcha.eu L&ouml;sung ist ung&uuml;ltig</source>
+                                <source><![CDATA[Captcha.eu L&ouml;sung ist ung&uuml;ltig]]></source>
 			</trans-unit>
 			<trans-unit id="site.configuration.tab">
 				<source>Captcha.eu</source>
