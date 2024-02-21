@@ -27,6 +27,26 @@ class Validator
 		$this->logger = $logger;
 	}
 
+  public function checkSolution($solution, $key, $endpoint) {
+      $ch = curl_init($endpoint);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $solution);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Rest-Key: ' . $key));
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      $result = curl_exec($ch);
+      curl_close($ch);
+
+      $resultObject = json_decode($result);
+      if ($resultObject->success) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+
+
+
+
 	// validate given solution
 	public function validate($solution = '') {
 		// return if not enabled (eg. keys not set)
@@ -39,70 +59,7 @@ class Validator
 			return false;
 		}
 
-		// get validation endpoint
-		$endpointURL = $this->configuration->getEPValidate();
-
-		try {
-			// send request with solution to service host
-			$response = $this->client->request('POST', $endpointURL, [
-				'headers' => [
-					'Rest-Key' => $this->configuration->getKeyREST(),
-					'Content-Type' => 'application/json'
-				],
-				'body' => $solution
-			]);
-
-			// if request failed
-			if(!$response) {
-				// log errors
-				$this->logger->error('captcha.eu validation request failed');
-				// allow
-				return true;
-			}
-
-			switch($response->getStatusCode()) {
-				case 200: // OK
-					// check solution
-					$resBody = trim($response->getBody()->getContents());
-
-					// convert to json
-					try {
-						// decode json & throw exception if parsing failed
-						$resJSON = json_decode($resBody, false, 5, JSON_THROW_ON_ERROR);
-
-						// verify success
-						if($resJSON->success) {
-							// valid solution -> allow
-							return true;
-						} else {
-							// invalid solution -> deny
-							return false;
-						}
-					} catch (\JsonException $e) {
-						// log errors
-						$this->logger->error('JsonException: ' . $e->getMessage());
-						// deny
-						return false;
-					}
-					break;
-				case 403: // FORBIDDEN (rest-key invalid)
-					// log
-					$this->logger->error('captcha.eu - 403 - invalid rest key');
-					return false;
-					break;
-				default:
-					// log errors
-					$this->logger->error('captcha.eu validation request response code: ' . $response->getStatusCode());
-					// allow
-					return true;
-					break;
-			}
-
-		} catch (ClientException | GuzzleException $e) {
-			// log errors
-			$this->logger->error($e->getMessage());
-			// allow
-			return true;
-		}
+    $result = $this->checkSolution($solution, $this->configuration->getKeyREST(), $this->configuration->getEPValidate());
+    return $result;
 	}
 }
