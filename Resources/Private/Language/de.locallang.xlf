@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" date="2023-09-27T10:05:44+01:00">
+	<file source-language="en" target-language="de" date="2024-02-21T20:05:44+01:00">
 		<body>
 			<trans-unit id="error.solution_invalid">
-                                <source><![CDATA[Captcha.eu L&ouml;sung ist ung&uuml;ltig]]></source>
+         <source>Captcha.eu solution is invalid</source>
+         <target><![CDATA[Captcha.eu L&ouml;sung ist ung&uuml;ltig]]></target>
 			</trans-unit>
 			<trans-unit id="site.configuration.tab">
 				<source>Captcha.eu</source>
