@@ -17,14 +17,12 @@ class Validator
 	// solution parameter
 	private const SOLUTION_PARAM = 'captcha_at_solution';
 
-	protected ClientInterface $client;
-	protected Configuration $configuration;
-	protected LoggerInterface $logger;
+	protected  $client;
+	protected  $configuration;
+	protected  $logger;
 
-	public function __construct(ClientInterface $client, LoggerInterface $logger) {
-		$this->client = $client;
+	public function __construct() {
 		$this->configuration = new Configuration();
-		$this->logger = $logger;
 	}
 
   public function checkSolution($solution, $key, $endpoint) {

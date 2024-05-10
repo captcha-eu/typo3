@@ -13,11 +13,11 @@ class Configuration
 	public const HOST_DEFAULT = 'https://www.captcha.eu';
 
 	// host
-	protected string $host = '';
+	protected $host = '';
 
 	// keys
-	protected string $keyPublic = '';
-	protected string $keyREST = '';
+	protected  $keyPublic = '';
+	protected  $keyREST = '';
 
 	// endpoints
 	protected const EP_VALIDATE = '/validate';
@@ -47,7 +47,7 @@ class Configuration
 	}
 
 	// make sure the essential settings are set
-	public function isEnabled(): bool
+	public function isEnabled()
 	{
 		// check if keys are set
 		$keysSet = $this->keyPublic !== '' && $this->keyREST !== '';
@@ -56,32 +56,32 @@ class Configuration
 	}
 
 	// get public key
-	public function getKeyPublic(): string
+	public function getKeyPublic()
 	{
 		return $this->keyPublic;
 	}
 
 	// get rest key
-	public function getKeyREST(): string
+	public function getKeyREST()
 	{
 		return $this->keyREST;
 	}
 
 	// get validation endpoint
-	public function getEPValidate(): string
+	public function getEPValidate()
 	{
 		return $this->getHost() . self::EP_VALIDATE;
 	}
 
 	// get service host
-	public function getHost(): string
+	public function getHost()
 	{
 		// config or default
 		return $this->host ?: self::HOST_DEFAULT;
 	}
 
 	// sdk.js path with config host
-	public function getSDKJSPath(): string
+	public function getSDKJSPath()
 	{
 		// return sdk path with configured host
 		return $this->getHost() . '/sdk.js';
