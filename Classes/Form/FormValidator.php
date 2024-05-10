@@ -10,6 +10,7 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 class FormValidator extends AbstractValidator
 {
+        protected $acceptsEmptyValues = false;
 	protected function isValid($solution): void
 	{
 		// get validator instance
