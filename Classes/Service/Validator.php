@@ -21,9 +21,9 @@ class Validator
 	protected Configuration $configuration;
 	protected LoggerInterface $logger;
 
-	public function __construct(ClientInterface $client, LoggerInterface $logger) {
+	public function __construct(ClientInterface $client, LoggerInterface $logger, Configuration $configuration) {
 		$this->client = $client;
-		$this->configuration = new Configuration();
+		$this->configuration = $configuration;
 		$this->logger = $logger;
 	}
 
