@@ -6,6 +6,29 @@ namespace CaptchaEU\Typo3;
 
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
+
+class ModifyConfigValueEvent
+{
+    private string $value;
+    private string $property;
+
+    public function __construct(string $value, string $property)
+    {
+        $this->value = $value;
+        $this->property = $property;
+    }
+
+    public function getValue(): string 
+    {
+        return $this->value;
+    }
+
+    public function getProperty(): string
+    {
+        return $this->property;
+    }
+}
 
 class Configuration
 {
@@ -18,12 +41,14 @@ class Configuration
 	// keys
 	protected string $keyPublic = '';
 	protected string $keyREST = '';
+	private ?EventDispatcherInterface $eventDispatcher;
 
 	// endpoints
 	protected const EP_VALIDATE = '/validate';
 
-	public function __construct(Site $site = null)
+	public function __construct(Site $site = null, ?EventDispatcherInterface $eventDispatcher = null)
 	{
+		$this->eventDispatcher = $eventDispatcher;
 		if ($site === null) {
 			$site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
 		}
@@ -44,7 +69,23 @@ class Configuration
 		$this->host = trim($siteConfiguration['captchaeu_host'] ?? '');
 		$this->keyPublic = trim($siteConfiguration['captchaeu_key_public'] ?? '');
 		$this->keyREST = trim($siteConfiguration['captchaeu_key_rest'] ?? '');
+		if ($this->eventDispatcher !== null) {
+            $this->host = $this->dispatchValueEvent($this->host, 'host');
+            $this->keyPublic = $this->dispatchValueEvent($this->keyPublic, 'keyPublic');
+            $this->keyREST = $this->dispatchValueEvent($this->keyREST, 'keyREST');
+        }
 	}
+
+	protected function dispatchValueEvent(string $value, string $property): string
+    {
+        if ($this->eventDispatcher === null) {
+            return $value;
+        }
+        
+        $event = new ModifyConfigValueEvent($value, $property);
+        $event = $this->eventDispatcher->dispatch($event);
+        return $event->getValue();
+    }
 
 	// make sure the essential settings are set
 	public function isEnabled(): bool
