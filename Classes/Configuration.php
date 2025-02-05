@@ -7,6 +7,7 @@ namespace CaptchaEU\Typo3;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ModifyConfigValueEvent
 {
@@ -42,16 +43,21 @@ class Configuration
 	protected string $keyPublic = '';
 	protected string $keyREST = '';
 	private ?EventDispatcherInterface $eventDispatcher;
+	private ?ServerRequestInterface $request;
 
 	// endpoints
 	protected const EP_VALIDATE = '/validate';
 
-	public function __construct(Site $site = null, ?EventDispatcherInterface $eventDispatcher = null)
+	public function __construct(?ServerRequestInterface $request = null, ?EventDispatcherInterface $eventDispatcher = null)
 	{
 		$this->eventDispatcher = $eventDispatcher;
-		if ($site === null) {
-			$site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+		$this->request = $request ?? ($GLOBALS['TYPO3_REQUEST'] ?? null);
+
+		if ($this->request === null) {
+			return;
 		}
+
+		$site = $this->request->getAttribute('site');
 
 		if ($site === null) {
 			return;
@@ -128,4 +134,3 @@ class Configuration
 		return $this->getHost() . '/sdk.js';
 	}
 }
-

@@ -11,18 +11,24 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class ConfigurationViewHelper extends AbstractViewHelper
 {
-	use CompileWithRenderStatic;
+    use CompileWithRenderStatic;
 
-	public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
-	{
-		$configuration = new Configuration();
+    private static Configuration $configuration;
 
+    public function __construct(Configuration $configuration) 
+    {
+        parent::__construct();
+        self::$configuration = $configuration;
+    }
+
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    {
 		// pass variables to view
-		return [
-			'host' => $configuration->getHost(),
-			'keyPublic' => $configuration->getKeyPublic(),
-			'SDKJSPath' => $configuration->getSDKJSPath(),
-			'enabled' => $configuration->isEnabled()
-		];
-	}
+        return [
+            'host' => self::$configuration->getHost(),
+            'keyPublic' => self::$configuration->getKeyPublic(),
+            'SDKJSPath' => self::$configuration->getSDKJSPath(),
+            'enabled' => self::$configuration->isEnabled()
+        ];
+    }
 }
