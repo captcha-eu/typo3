@@ -5,24 +5,26 @@ declare(strict_types=1);
 namespace CaptchaEU\Typo3\ViewHelpers;
 
 use CaptchaEU\Typo3\Configuration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 
 class ConfigurationViewHelper extends AbstractViewHelper
 {
-	use CompileWithRenderStatic;
+    protected Configuration $configuration;
 
-	public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
-	{
-		$configuration = new Configuration();
+    public function __construct() 
+    {
+        $this->configuration = GeneralUtility::makeInstance(Configuration::class);
+    }
 
-		// pass variables to view
-		return [
-			'host' => $configuration->getHost(),
-			'keyPublic' => $configuration->getKeyPublic(),
-			'SDKJSPath' => $configuration->getSDKJSPath(),
-			'enabled' => $configuration->isEnabled()
-		];
-	}
+    public function render()
+    {
+        return [
+            'host' => $this->configuration->getHost(),
+            'keyPublic' => $this->configuration->getKeyPublic(),
+            'SDKJSPath' => $this->configuration->getSDKJSPath(),
+            'enabled' => $this->configuration->isEnabled()
+        ];
+    }
 }
