@@ -17,7 +17,6 @@ class ConfigurationViewHelper extends AbstractViewHelper
 
     public function __construct(Configuration $configuration) 
     {
-        parent::__construct();
         self::$configuration = $configuration;
     }
 
