@@ -10,7 +10,10 @@ use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Log\LoggerInterface;
+use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\ServerRequest;
+use TYPO3\CMS\Core\Log\LogManager;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Validator
 {
@@ -27,25 +30,35 @@ class Validator
 		$this->logger = $logger;
 	}
 
-  public function checkSolution($solution, $key, $endpoint) {
-      $ch = curl_init($endpoint);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $solution);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Rest-Key: ' . $key));
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      $result = curl_exec($ch);
-      curl_close($ch);
-
-      $resultObject = json_decode($result);
-      if ($resultObject->success) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-
-
-
+	public function checkSolution($solution, $key, $endpoint) {
+		
+		$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+		
+		try {
+			$payload = [
+				'headers' => [
+					'Content-Type' => 'application/json',
+					'Rest-Key' => $key
+				],
+				'body' => $solution
+			];
+		
+			$response = $requestFactory->request(
+				$endpoint,
+				'POST',
+				$payload,
+			);
+	
+			if ($response->getStatusCode() === 200) {
+				$result = json_decode($response->getBody()->getContents());
+				return $result->success ?? false;
+			}
+			
+			return false;
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
 
 	// validate given solution
 	public function validate($solution = '') {
