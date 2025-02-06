@@ -13,9 +13,9 @@ class ConfigurationViewHelper extends AbstractViewHelper
 {
     protected Configuration $configuration;
 
-    public function __construct() 
+    public function __construct(Configuration $configuration)
     {
-        $this->configuration = GeneralUtility::makeInstance(Configuration::class);
+        $this->configuration = $configuration;
     }
 
     public function render()
