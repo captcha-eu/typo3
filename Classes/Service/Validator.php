@@ -24,16 +24,18 @@ class Validator
 	protected Configuration $configuration;
 	protected LoggerInterface $logger;
 
-	public function __construct(ClientInterface $client, LoggerInterface $logger, Configuration $configuration) {
+	public function __construct(ClientInterface $client, LoggerInterface $logger, Configuration $configuration)
+	{
 		$this->client = $client;
 		$this->configuration = $configuration;
 		$this->logger = $logger;
 	}
 
-	public function checkSolution($solution, $key, $endpoint) {
-		
+	public function checkSolution($solution, $key, $endpoint)
+	{
+
 		$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
-		
+
 		try {
 			$payload = [
 				'headers' => [
@@ -42,18 +44,18 @@ class Validator
 				],
 				'body' => $solution
 			];
-		
+
 			$response = $requestFactory->request(
 				$endpoint,
 				'POST',
 				$payload,
 			);
-	
+
 			if ($response->getStatusCode() === 200) {
 				$result = json_decode($response->getBody()->getContents());
 				return $result->success ?? false;
 			}
-			
+
 			if ($this->configuration->isLoggingEnabled()) {
 				$this->logger->warning('Captcha.eu validation failed with non-200 status code', [
 					'statusCode' => $response->getStatusCode(),
@@ -62,30 +64,30 @@ class Validator
 			}
 			return false;
 		} catch (\Exception $e) {
-			if ($this->configuration->isLoggingEnabled()) {
-				$this->logger->error('Captcha.eu validation failed with exception', [
-					'message' => $e->getMessage(),
-					'code' => $e->getCode(),
-					'endpoint' => $endpoint
-				]);
-			}
+			$this->logger->error('Captcha.eu validation failed with exception', [
+				'message' => $e->getMessage(),
+				'code' => $e->getCode(),
+				'endpoint' => $endpoint
+			]);
+
 			return false;
 		}
 	}
 
 	// validate given solution
-	public function validate($solution = '') {
+	public function validate($solution = '')
+	{
 		// return if not enabled (eg. keys not set)
-		if(!$this->configuration->isEnabled()) {
+		if (!$this->configuration->isEnabled()) {
 			return false;
 		}
 
 		// solution not set or empty
-		if(empty($solution)) {
+		if (empty($solution)) {
 			return false;
 		}
 
-    $result = $this->checkSolution($solution, $this->configuration->getKeyREST(), $this->configuration->getEPValidate());
-    return $result;
+		$result = $this->checkSolution($solution, $this->configuration->getKeyREST(), $this->configuration->getEPValidate());
+		return $result;
 	}
 }
