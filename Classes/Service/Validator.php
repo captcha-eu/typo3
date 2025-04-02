@@ -54,8 +54,21 @@ class Validator
 				return $result->success ?? false;
 			}
 			
+			if ($this->configuration->isLoggingEnabled()) {
+				$this->logger->warning('Captcha.eu validation failed with non-200 status code', [
+					'statusCode' => $response->getStatusCode(),
+					'endpoint' => $endpoint
+				]);
+			}
 			return false;
 		} catch (\Exception $e) {
+			if ($this->configuration->isLoggingEnabled()) {
+				$this->logger->error('Captcha.eu validation failed with exception', [
+					'message' => $e->getMessage(),
+					'code' => $e->getCode(),
+					'endpoint' => $endpoint
+				]);
+			}
 			return false;
 		}
 	}

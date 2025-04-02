@@ -50,6 +50,9 @@ class Configuration
 	private ?EventDispatcherInterface $eventDispatcher;
 	private ?ServerRequestInterface $request;
 
+	// logging
+	protected bool $enableLogging = false;
+
 	// endpoints
 	protected const EP_VALIDATE = '/validate';
 
@@ -80,6 +83,7 @@ class Configuration
 		$this->host = trim($siteConfiguration['captchaeu_host'] ?? '');
 		$this->keyPublic = trim($siteConfiguration['captchaeu_key_public'] ?? '');
 		$this->keyREST = trim($siteConfiguration['captchaeu_key_rest'] ?? '');
+		$this->enableLogging = (bool)($siteConfiguration['captchaeu_enable_logging'] ?? false);
 		if ($this->eventDispatcher !== null) {
             $this->host = $this->dispatchValueEvent($this->host, 'host');
             $this->keyPublic = $this->dispatchValueEvent($this->keyPublic, 'keyPublic');
@@ -130,6 +134,12 @@ class Configuration
 	{
 		// config or default
 		return $this->host ?: self::HOST_DEFAULT;
+	}
+
+	// is logging enabled
+	public function isLoggingEnabled(): bool
+	{
+		return $this->enableLogging;
 	}
 
 	// sdk.js path with config host

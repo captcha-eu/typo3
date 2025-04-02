@@ -17,6 +17,9 @@
 			<trans-unit id="site.configuration.host">
 				<source>Captcha.eu Host</source>
 			</trans-unit>
+			<trans-unit id="site.configuration.enable_logging">
+				<source>Enable Logging</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
