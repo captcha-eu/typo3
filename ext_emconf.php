@@ -4,7 +4,7 @@
  * Extension Manager/Repository config for ext "captchaeu_typo3"
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = [
+$EM_CONF['captchaeu_typo3'] = [
 	'title' => 'Captcha.eu',
 	'description' => 'Captcha.eu - The intelligent GDPR-compliant Captcha solution without interrupting puzzles or riddles',
 	'category' => 'plugin',
@@ -14,7 +14,7 @@ $EM_CONF[$_EXTKEY] = [
 	'version' => '1.0.5',
 	'constraints' => [
 		'depends' => [
-			'typo3' => '11.5.0-12.4.99'
+			'typo3' => '11.5.0-13.4.99'
 		],
 		'conflicts' => [],
 		'suggests' => []

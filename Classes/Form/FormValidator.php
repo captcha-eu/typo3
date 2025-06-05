@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace CaptchaEU\Typo3\Form;
 
 use CaptchaEU\Typo3\Service\Validator;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 class FormValidator extends AbstractValidator
 {
-        protected $acceptsEmptyValues = false;
+	protected $acceptsEmptyValues = false;
+	
+	private Validator $validator;
+	
+	public function __construct(Validator $validator)
+	{
+		$this->validator = $validator;
+	}
 	protected function isValid($solution): void
 	{
-		// get validator instance
-		$captchaEUValidator = GeneralUtility::makeInstance(Validator::class);
-		$isValid = $captchaEUValidator->validate($solution);
+		$isValid = $this->validator->validate($solution);
 
 		// check if solution is valid
 		if (!$isValid) {
