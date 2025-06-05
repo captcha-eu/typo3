@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.2', '8.3']
+        typo3-version: ['^11.5', '^12.4', '^13.4']
+        exclude:
+          # TYPO3 13 requires PHP 8.2+
+          - php-version: '8.1'
+            typo3-version: '^13.4'
+    
+    name: PHP ${{ matrix.php-version }} - TYPO3 ${{ matrix.typo3-version }}
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: mbstring, xml, ctype, iconv, intl, mysql, mysqli
+        coverage: xdebug
+    
+    - name: Validate composer.json
+      run: composer validate --strict
+    
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v4
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ matrix.php-version }}-typo3-${{ matrix.typo3-version }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-${{ matrix.php-version }}-typo3-${{ matrix.typo3-version }}-
+          ${{ runner.os }}-php-${{ matrix.php-version }}-
+          ${{ runner.os }}-php-
+    
+    - name: Install dependencies
+      run: |
+        composer require typo3/cms-core:${{ matrix.typo3-version }} --no-update
+        composer install --prefer-dist --no-progress
+    
+    - name: Run PHPUnit tests
+      run: composer test
+    
+    - name: Run PHP Code Sniffer
+      run: composer cs
+      continue-on-error: true
+    
+    - name: Run PHPStan
+      run: composer analyse
+      continue-on-error: true
+
+  code-quality:
+    runs-on: ubuntu-latest
+    name: Code Quality Checks
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, xml, ctype, iconv, intl
+        coverage: none
+    
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+    
+    - name: PHP Code Sniffer
+      run: composer cs
+    
+    - name: PHPStan
+      run: composer analyse

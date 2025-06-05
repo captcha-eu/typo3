@@ -1,0 +1,13 @@
+parameters:
+    level: 5
+    paths:
+        - Classes
+        - Tests
+    excludePaths:
+        - Tests/Fixtures/*
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # Ignore errors about undefined TYPO3 classes in unit tests
+        - '#Class TYPO3\\CMS\\[a-zA-Z\\]+ not found#'
+        # Ignore errors about GeneralUtility in certain contexts
+        - '#Call to static method makeInstance\(\) on an unknown class TYPO3\\CMS\\Core\\Utility\\GeneralUtility#'
