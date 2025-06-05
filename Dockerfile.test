@@ -1,0 +1,55 @@
+FROM php:8.2-apache
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libxml2-dev \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libicu-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        gd \
+        intl \
+        mysqli \
+        pdo_mysql \
+        zip \
+        xml
+
+# Enable Apache modules
+RUN a2enmod rewrite
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Create a simple TYPO3 installation with our extension
+RUN composer create-project typo3/cms-base-distribution:^12.4 . --no-install --no-scripts \
+    && composer config repositories.local path /var/www/html/typo3conf/ext/captchaeu_typo3 \
+    && composer config minimum-stability dev
+
+# Copy our extension
+COPY . /var/www/html/typo3conf/ext/captchaeu_typo3/
+
+# Update composer.json to include our extension
+RUN composer require captcha-eu/typo3:@dev --no-scripts
+
+# Install dependencies and set up TYPO3
+RUN composer install --no-dev --optimize-autoloader \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+
+# Apache configuration
+RUN echo "DocumentRoot /var/www/html/public" > /etc/apache2/sites-available/000-default.conf
+
+EXPOSE 80
+
+CMD ["apache2-foreground"]
