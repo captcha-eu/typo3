@@ -9,33 +9,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ModifyConfigValueEvent
-{
-    private string $value;
-    private string $property;
-
-    public function __construct(string $value, string $property)
-    {
-        $this->value = $value;
-        $this->property = $property;
-    }
-
-    public function getValue(): string 
-    {
-        return $this->value;
-    }
-
-	public function setValue(string $value): void
-    {
-        $this->value = $value;
-    }
-
-    public function getProperty(): string
-    {
-        return $this->property;
-    }
-}
-
 class Configuration
 {
 	// defaults

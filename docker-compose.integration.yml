@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  web:
+    image: typo3/typo3:13-apache
+    container_name: typo3_integration_test
+    ports:
+      - "8080:80"
+    environment:
+      - TYPO3_DB_DRIVER=mysqli
+      - TYPO3_DB_HOST=db
+      - TYPO3_DB_USERNAME=typo3
+      - TYPO3_DB_PASSWORD=typo3password
+      - TYPO3_DB_NAME=typo3db
+      - TYPO3_SETUP_ADMIN_USERNAME=admin
+      - TYPO3_SETUP_ADMIN_PASSWORD=admin123!
+      - TYPO3_SETUP_SITE_NAME=CaptchaEU Test Site
+      - TYPO3_SETUP_SITE_URL=http://localhost:8080
+    volumes:
+      - ./:/var/www/html/typo3conf/ext/captchaeu_typo3
+      - typo3_data:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - typo3_network
+
+  db:
+    image: mysql:8.0
+    container_name: typo3_db_integration
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=typo3db
+      - MYSQL_USER=typo3
+      - MYSQL_PASSWORD=typo3password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - typo3_network
+
+volumes:
+  typo3_data:
+  db_data:
+
+networks:
+  typo3_network:
+    driver: bridge

@@ -1,0 +1,33 @@
+services:
+  typo3:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: captcha_test_typo3
+    ports:
+      - "8080:80"
+    environment:
+      TYPO3_DB_DRIVER: mysqli
+      TYPO3_DB_HOST: db
+      TYPO3_DB_USERNAME: typo3
+      TYPO3_DB_PASSWORD: typo3password
+      TYPO3_DB_NAME: typo3db
+    volumes:
+      - typo3_data:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: captcha_test_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: typo3db
+      MYSQL_USER: typo3
+      MYSQL_PASSWORD: typo3password
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  typo3_data:
+  db_data:
