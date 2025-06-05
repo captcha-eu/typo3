@@ -29,8 +29,7 @@ class Configuration
     public function __construct(
         ?ServerRequestInterface $request = null,
         ?EventDispatcherInterface $eventDispatcher = null
-    )
-    {
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->request = $request ?? ($GLOBALS['TYPO3_REQUEST'] ?? null);
 
