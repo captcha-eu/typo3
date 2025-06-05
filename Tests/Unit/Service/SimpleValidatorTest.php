@@ -14,16 +14,16 @@ class SimpleValidatorTest extends TestCase
     {
         $configMock = $this->createMock(Configuration::class);
         $configMock->method('isEnabled')->willReturn(false);
-        
+
         // Create minimal mocks for required dependencies
         $clientMock = $this->createMock(\Psr\Http\Client\ClientInterface::class);
         $loggerMock = $this->createMock(\Psr\Log\LoggerInterface::class);
         $requestFactoryMock = $this->createMock(\TYPO3\CMS\Core\Http\RequestFactory::class);
-        
-        $validator = new Validator($clientMock, $loggerMock, $configMock, $requestFactoryMock);
-        
+
+        $validator = new Validator($clientMock, $loggerMock, $configMock);
+
         $result = $validator->validate('test-solution');
-        
+
         $this->assertFalse($result);
     }
 
@@ -31,16 +31,16 @@ class SimpleValidatorTest extends TestCase
     {
         $configMock = $this->createMock(Configuration::class);
         $configMock->method('isEnabled')->willReturn(true);
-        
+
         // Create minimal mocks for required dependencies
         $clientMock = $this->createMock(\Psr\Http\Client\ClientInterface::class);
         $loggerMock = $this->createMock(\Psr\Log\LoggerInterface::class);
         $requestFactoryMock = $this->createMock(\TYPO3\CMS\Core\Http\RequestFactory::class);
-        
-        $validator = new Validator($clientMock, $loggerMock, $configMock, $requestFactoryMock);
-        
+
+        $validator = new Validator($clientMock, $loggerMock, $configMock);
+
         $result = $validator->validate('');
-        
+
         $this->assertFalse($result);
     }
 
@@ -48,16 +48,16 @@ class SimpleValidatorTest extends TestCase
     {
         $configMock = $this->createMock(Configuration::class);
         $configMock->method('isEnabled')->willReturn(true);
-        
+
         // Create minimal mocks for required dependencies
         $clientMock = $this->createMock(\Psr\Http\Client\ClientInterface::class);
         $loggerMock = $this->createMock(\Psr\Log\LoggerInterface::class);
         $requestFactoryMock = $this->createMock(\TYPO3\CMS\Core\Http\RequestFactory::class);
-        
-        $validator = new Validator($clientMock, $loggerMock, $configMock, $requestFactoryMock);
-        
+
+        $validator = new Validator($clientMock, $loggerMock, $configMock);
+
         $result = $validator->validate();
-        
+
         $this->assertFalse($result);
     }
 }
