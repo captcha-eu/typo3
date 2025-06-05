@@ -1,0 +1,24 @@
+# Dependencies
+/vendor/
+/composer.lock
+
+# Testing
+/.phpunit.cache/
+/Build/
+/coverage/
+/.phpunit.result.cache
+
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TYPO3
+/typo3temp/
+/var/

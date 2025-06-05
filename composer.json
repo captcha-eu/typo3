@@ -3,7 +3,7 @@
 	"type": "typo3-cms-extension",
 	"description": "Captcha.eu - The intelligent GDPR-compliant non-intrusive bot protection for your TYPO3 CMS Forms. Invisible/Non-interruptive - No riddles or puzzle solving neccessary!",
 	"homepage": "https://www.captcha.eu",
-	"license": "GPL-2.0+",
+	"license": "GPL-2.0-or-later",
 	"keywords": [
 		"TYPO3",
 		"captcha",
@@ -32,9 +32,38 @@
 	"suggest": {
 		"typo3/cms-form": "*"
 	},
+	"require-dev": {
+		"phpunit/phpunit": "^10.5 || ^11.0",
+		"squizlabs/php_codesniffer": "^3.7",
+		"phpstan/phpstan": "^1.10",
+		"phpstan/extension-installer": "^1.3"
+	},
 	"autoload": {
 		"psr-4": {
 			"CaptchaEU\\Typo3\\": "Classes/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"CaptchaEU\\Typo3\\Tests\\": "Tests/"
+		}
+	},
+	"scripts": {
+		"test": "phpunit -c phpunit.xml",
+		"test:coverage": "phpunit -c phpunit.xml --coverage-html Build/coverage",
+		"cs": "phpcs --standard=PSR12 Classes Tests",
+		"cs:fix": "phpcbf --standard=PSR12 Classes Tests",
+		"analyse": "phpstan analyse Classes --level=5",
+		"ci": [
+			"@cs",
+			"@test"
+		]
+	},
+	"config": {
+		"allow-plugins": {
+			"typo3/cms-composer-installers": true,
+			"typo3/class-alias-loader": true,
+			"phpstan/extension-installer": true
 		}
 	},
 	"extra": {
