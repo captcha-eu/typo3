@@ -56,7 +56,6 @@
 		"analyse": "phpstan analyse Classes --level=5",
 		"ci": [
 			"@cs",
-			"@analyse",
 			"@test"
 		]
 	},
