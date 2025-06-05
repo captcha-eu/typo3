@@ -3,7 +3,7 @@
 	"type": "typo3-cms-extension",
 	"description": "Captcha.eu - The intelligent GDPR-compliant non-intrusive bot protection for your TYPO3 CMS Forms. Invisible/Non-interruptive - No riddles or puzzle solving neccessary!",
 	"homepage": "https://www.captcha.eu",
-	"license": "GPL-2.0+",
+	"license": "GPL-2.0-or-later",
 	"keywords": [
 		"TYPO3",
 		"captcha",
@@ -59,6 +59,13 @@
 			"@analyse",
 			"@test"
 		]
+	},
+	"config": {
+		"allow-plugins": {
+			"typo3/cms-composer-installers": true,
+			"typo3/class-alias-loader": true,
+			"phpstan/extension-installer": true
+		}
 	},
 	"extra": {
 		"typo3/cms": {
