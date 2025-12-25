@@ -35,7 +35,22 @@ call_user_func(
 			],
 		];
 
+		// Enable Logging
+		$GLOBALS['SiteConfiguration']['site']['columns']['captchaeu_enable_logging'] = [
+			'label' => $lll . 'site.configuration.enable_logging',
+			'config' => [
+				'type' => 'check',
+				'default' => 0,
+				'items' => [
+					'1' => [
+						'name' => $lll . 'site.configuration.enable_logging',
+						'invertStateDisplay' => true
+					]
+				]
+			],
+		];
+
 		// add to showitem
-		$GLOBALS['SiteConfiguration']['site']['types']['0']['showitem'] .= ',--div--;' . $lll . 'site.configuration.tab, captchaeu_key_public,captchaeu_key_rest,captchaeu_host,';
+		$GLOBALS['SiteConfiguration']['site']['types']['0']['showitem'] .= ',--div--;' . $lll . 'site.configuration.tab, captchaeu_key_public,captchaeu_key_rest,captchaeu_host,captchaeu_enable_logging,';
 	}
 );
