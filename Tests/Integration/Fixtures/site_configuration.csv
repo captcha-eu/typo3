@@ -1,0 +1,2 @@
+uid,pid,identifier,rootPageId,base,captchaeu_host,captchaeu_key_public,captchaeu_key_rest
+1,0,"test-site",1,"http://localhost/","https://www.captcha.eu","test-public-key","test-rest-key"

@@ -1,0 +1,68 @@
+services:
+  typo3-12:
+    image: typo3/typo3:12-apache
+    container_name: captcha_test_typo3_12
+    ports:
+      - "8012:80"
+    environment:
+      TYPO3_DB_DRIVER: mysqli
+      TYPO3_DB_HOST: db-12
+      TYPO3_DB_USERNAME: typo3
+      TYPO3_DB_PASSWORD: typo3password
+      TYPO3_DB_NAME: typo3db
+      TYPO3_SETUP_ADMIN_USERNAME: admin
+      TYPO3_SETUP_ADMIN_PASSWORD: admin123!
+      TYPO3_SETUP_SITE_NAME: "CaptchaEU Test TYPO3 12"
+    volumes:
+      - ./:/var/www/html/typo3conf/ext/captchaeu_typo3:ro
+      - typo3_12_data:/var/www/html
+    depends_on:
+      - db-12
+
+  db-12:
+    image: mysql:8.0
+    container_name: captcha_test_db_12
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: typo3db
+      MYSQL_USER: typo3
+      MYSQL_PASSWORD: typo3password
+    volumes:
+      - db_12_data:/var/lib/mysql
+
+  typo3-13:
+    image: typo3/typo3:13-apache
+    container_name: captcha_test_typo3_13
+    ports:
+      - "8013:80"
+    environment:
+      TYPO3_DB_DRIVER: mysqli
+      TYPO3_DB_HOST: db-13
+      TYPO3_DB_USERNAME: typo3
+      TYPO3_DB_PASSWORD: typo3password
+      TYPO3_DB_NAME: typo3db
+      TYPO3_SETUP_ADMIN_USERNAME: admin
+      TYPO3_SETUP_ADMIN_PASSWORD: admin123!
+      TYPO3_SETUP_SITE_NAME: "CaptchaEU Test TYPO3 13"
+    volumes:
+      - ./:/var/www/html/typo3conf/ext/captchaeu_typo3:ro
+      - typo3_13_data:/var/www/html
+    depends_on:
+      - db-13
+
+  db-13:
+    image: mysql:8.0
+    container_name: captcha_test_db_13
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: typo3db
+      MYSQL_USER: typo3
+      MYSQL_PASSWORD: typo3password
+    volumes:
+      - db_13_data:/var/lib/mysql
+
+volumes:
+  typo3_12_data:
+  typo3_13_data:
+  db_12_data:
+  db_13_data:
