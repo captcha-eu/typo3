@@ -18,6 +18,11 @@ class ConfigurationViewHelper extends AbstractViewHelper
         $this->configuration = $configuration;
     }
 
+    public function initializeArguments(): void
+    {
+        parent::initializeArguments();
+    }
+
     public function render()
     {
         return [
