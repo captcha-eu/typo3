@@ -13,7 +13,6 @@ use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Log\LogManager;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class Validator
 {
@@ -23,16 +22,21 @@ class Validator
 	protected ClientInterface $client;
 	protected Configuration $configuration;
 	protected LoggerInterface $logger;
+	protected RequestFactory $requestFactory;
 
-	public function __construct(ClientInterface $client, LoggerInterface $logger, Configuration $configuration) {
+	public function __construct(
+		ClientInterface $client,
+		LoggerInterface $logger,
+		Configuration $configuration,
+		RequestFactory $requestFactory
+	) {
 		$this->client = $client;
 		$this->configuration = $configuration;
 		$this->logger = $logger;
+		$this->requestFactory = $requestFactory;
 	}
 
 	public function checkSolution($solution, $key, $endpoint) {
-		
-		$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
 		
 		try {
 			$payload = [
@@ -43,7 +47,7 @@ class Validator
 				'body' => $solution
 			];
 		
-			$response = $requestFactory->request(
+			$response = $this->requestFactory->request(
 				$endpoint,
 				'POST',
 				$payload,
