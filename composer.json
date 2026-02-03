@@ -42,6 +42,12 @@
 			"CaptchaEU\\Typo3\\": "Classes/"
 		}
 	},
+	"config": {
+		"allow-plugins": {
+			"typo3/class-alias-loader": true,
+			"typo3/cms-composer-installers": true
+		}
+	},
 	"extra": {
 		"typo3/cms": {
 			"extension-key": "captchaeu_typo3"
