@@ -102,4 +102,4 @@ jobs:
         run: composer update --prefer-dist --no-progress --no-interaction
 
       - name: Check PSR-4 autoloading
-        run: composer dump-autoload --strict-psr
+        run: composer dump-autoload --optimize --strict-psr
