@@ -9,13 +9,13 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 class FormValidator extends AbstractValidator
 {
-	protected bool $acceptsEmptyValues = false;
-
 	private Validator $validator;
 
 	public function __construct(Validator $validator)
 	{
 		$this->validator = $validator;
+		// Explicitly set that we do not accept empty values
+		$this->acceptsEmptyValues = false;
 	}
 
 	protected function isValid(mixed $solution): void
