@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  php-lint:
+    name: PHP Lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+      - name: PHP Lint
+        run: find . -name '*.php' -not -path './vendor/*' | xargs -n1 php -l
+
+  typo3-compatibility:
+    name: TYPO3 ${{ matrix.typo3-version }} / PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # TYPO3 12.4 LTS
+          - typo3-version: '^12.4'
+            php-version: '8.2'
+          - typo3-version: '^12.4'
+            php-version: '8.3'
+          # TYPO3 13.4 LTS
+          - typo3-version: '^13.4'
+            php-version: '8.2'
+          - typo3-version: '^13.4'
+            php-version: '8.3'
+          - typo3-version: '^13.4'
+            php-version: '8.4'
+          # TYPO3 14 (development)
+          - typo3-version: '^14.0'
+            php-version: '8.3'
+          - typo3-version: '^14.0'
+            php-version: '8.4'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: intl, mbstring, xml, zip
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: |
+          composer require typo3/cms-core:${{ matrix.typo3-version }} --no-update
+          composer update --prefer-dist --no-progress --no-interaction
+
+      - name: Check extension can be loaded
+        run: |
+          php -r "
+            require_once 'vendor/autoload.php';
+            // Check classes can be autoloaded
+            \$classes = [
+              'CaptchaEU\Typo3\Configuration',
+              'CaptchaEU\Typo3\Service\Validator',
+              'CaptchaEU\Typo3\Form\FormValidator',
+              'CaptchaEU\Typo3\ViewHelpers\ConfigurationViewHelper'
+            ];
+            foreach (\$classes as \$class) {
+              if (!class_exists(\$class)) {
+                echo \"ERROR: Class \$class not found\n\";
+                exit(1);
+              }
+              echo \"OK: \$class\n\";
+            }
+            echo \"\nAll classes loaded successfully!\n\";
+          "
+
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-progress --no-interaction
+
+      - name: Check PSR-4 autoloading
+        run: composer dump-autoload --strict-psr

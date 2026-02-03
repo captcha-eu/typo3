@@ -36,7 +36,7 @@ class Validator
 		$this->requestFactory = $requestFactory;
 	}
 
-	public function checkSolution($solution, $key, $endpoint) {
+	public function checkSolution(string $solution, string $key, string $endpoint): bool {
 		
 		try {
 			$payload = [
@@ -65,7 +65,7 @@ class Validator
 	}
 
 	// validate given solution
-	public function validate($solution = '') {
+	public function validate(string $solution = ''): bool {
 		// return if not enabled (eg. keys not set)
 		if(!$this->configuration->isEnabled()) {
 			return false;

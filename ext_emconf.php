@@ -11,10 +11,11 @@ $EM_CONF['captchaeu_typo3'] = [
 	'author' => 'Captcha.eu',
 	'author_email' => 'hello@captcha.eu',
 	'state' => 'stable',
-	'version' => '1.0.5',
+	'version' => '2.0.0',
 	'constraints' => [
 		'depends' => [
-			'typo3' => '11.5.0-13.4.99'
+			'typo3' => '12.4.0-14.4.99',
+			'php' => '8.2.0-8.4.99'
 		],
 		'conflicts' => [],
 		'suggests' => []

@@ -9,28 +9,26 @@ use TYPO3\CMS\Extbase\Validation\Validator\AbstractValidator;
 
 class FormValidator extends AbstractValidator
 {
-	protected $acceptsEmptyValues = false;
-	
+	protected bool $acceptsEmptyValues = false;
+
 	private Validator $validator;
-	
+
 	public function __construct(Validator $validator)
 	{
 		$this->validator = $validator;
 	}
-	protected function isValid($solution): void
+
+	protected function isValid(mixed $solution): void
 	{
-		$isValid = $this->validator->validate($solution);
+		$isValid = $this->validator->validate((string)$solution);
 
 		// check if solution is valid
 		if (!$isValid) {
 			// invalid => add error
-			$this->addError($this->translateErrorMessage('error.solution_invalid', 'captchaeu_typo3'), 1695723714);
+			$this->addError(
+				$this->translateErrorMessage('error.solution_invalid', 'captchaeu_typo3') ?? 'Invalid captcha solution',
+				1695723714
+			);
 		}
-	}
-
-	public function setOptions(array $options): void
-	{
-		// @todo: Remove this method when v11 compatibility is dropped.
-		$this->initializeDefaultOptions($options);
 	}
 }
