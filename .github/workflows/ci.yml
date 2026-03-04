@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['8.2', '8.3', '8.4']
+        php-version: ['8.2', '8.3', '8.4', '8.5']
     steps:
       - uses: actions/checkout@v4
       - name: Setup PHP
@@ -41,11 +41,15 @@ jobs:
             php-version: '8.3'
           - typo3-version: '^13.4'
             php-version: '8.4'
+          - typo3-version: '^13.4'
+            php-version: '8.5'
           # TYPO3 14 (development)
           - typo3-version: '^14.0'
             php-version: '8.3'
           - typo3-version: '^14.0'
             php-version: '8.4'
+          - typo3-version: '^14.0'
+            php-version: '8.5'
 
     steps:
       - uses: actions/checkout@v4

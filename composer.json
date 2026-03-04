@@ -27,7 +27,7 @@
 		"issues": "https://github.com/captcha-eu/typo3/issues"
 	},
 	"require": {
-		"php": "^8.2 || ^8.3 || ^8.4",
+		"php": "^8.2 || ^8.3 || ^8.4 || ^8.5",
 		"typo3/cms-core": "^12.4 || ^13.4 || ^14.0"
 	},
 	"require-dev": {
