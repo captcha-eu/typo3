@@ -17,6 +17,27 @@
 			<trans-unit id="site.configuration.host">
 				<source>Captcha.eu Host</source>
 			</trans-unit>
+			<trans-unit id="site.configuration.mode">
+				<source>Widget Mode</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.mode.invisible">
+				<source>Invisible mode - Form interception (default)</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.mode.widget">
+				<source>Visible widget - Shows a captcha widget on the form</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.theme">
+				<source>Widget Theme</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.theme.light">
+				<source>Light</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.theme.dark">
+				<source>Dark</source>
+			</trans-unit>
+			<trans-unit id="site.configuration.theme.auto">
+				<source>Auto</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -34,6 +34,25 @@ captchaeu_host: 'https://www.captcha.eu'
 captchaeu_key_public: 'your-public-key'
 captchaeu_key_rest: 'your-rest-key'
 ```
+## Widget mode
+
+By default, captcha.eu runs in **invisible mode**, protecting your form silently in the background with no visible challenge for the user.
+
+You can optionally switch to **widget mode**, which shows a visible "I am human" widget on the form instead.
+
+Configure this in **Site Management > Sites > [your site] > Captcha.eu** tab:
+
+```yaml
+captchaeu_mode: 'widget'
+captchaeu_theme: 'light'
+```
+
+- **Widget Mode**: `invisible` (default) or `widget`
+- **Widget Theme**: `light`, `dark`, or `auto` (only used when `widget` mode is active)
+
+No code changes are required to use widget mode - it's controlled entirely from Site Configuration, and existing installations continue to run in invisible mode unchanged unless explicitly switched.
+
+Add the CaptchaEU form element to your form via the TYPO3 Form Editor (**Web > Forms**) - it appears under a custom "CaptchaEU Captcha" element group, and works the same way in both invisible and widget mode.
 
 ## Credits
 
