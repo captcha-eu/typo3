@@ -11,77 +11,28 @@
 				<f:asset.script defer="1" async="1" identifier="captchaeu" src="<f:format.htmlspecialchars>{conf.SDKJSPath}</f:format.htmlspecialchars>" />
 
 				<f:render partial="Field/Field" arguments="{element: element, doNotShowLabel: 1}" contentAs="elementContent">
+					<f:if condition="{conf.isWidgetMode}">
+						<f:then>
+							<div class="cpt_widget" data-key="<f:format.htmlspecialchars>{conf.keyPublic}</f:format.htmlspecialchars>" data-theme="<f:format.htmlspecialchars>{conf.theme}</f:format.htmlspecialchars>"></div>
+						</f:then>
+					</f:if>
+
 					<f:form.hidden
 						property="{element.identifier}"
 						id="{element.uniqueIdentifier}"
 						value="1"
 						additionalAttributes="{formvh:translateElementProperty(element: element, property: 'fluidAdditionalAttributes')}"
 					/>
-					<script>
-						// ensures KROT is loaded
-						function ensureKROTLoaded(callback) {
-							const checkVariable = () => {
-								// check availabilty
-								if (window['KROT'] !== undefined) {
-									// clear interval & trigger callback
-									clearInterval(checkInterval);
-									callback();
-								}
-							};
-							const checkInterval = setInterval(checkVariable, 200);
-						}
-						// wait for dom content to load
-						document.addEventListener('DOMContentLoaded', function () {
-							// ensure KROT is available
-							ensureKROTLoaded(function() {
-								// KROT setup
-								KROT.setup('<f:format.htmlspecialchars>{conf.keyPublic}</f:format.htmlspecialchars>');
-								KROT.KROT_HOST = '<f:format.htmlspecialchars>{conf.host}</f:format.htmlspecialchars>';
 
-								var input = document.getElementById('<f:format.htmlspecialchars>{element.uniqueIdentifier}</f:format.htmlspecialchars>');
-								var form = input.closest('form');
-								var btn = form.querySelector('[type="submit"]');
+					<span
+						data-captchaeu-mode="<f:format.htmlspecialchars>{conf.mode}</f:format.htmlspecialchars>"
+						data-captchaeu-key="<f:format.htmlspecialchars>{conf.keyPublic}</f:format.htmlspecialchars>"
+						data-captchaeu-host="<f:format.htmlspecialchars>{conf.host}</f:format.htmlspecialchars>"
+						data-captchaeu-field-id="<f:format.htmlspecialchars>{element.uniqueIdentifier}</f:format.htmlspecialchars>"
+						style="display:none;"
+					></span>
 
-								// intercept form
-								KROT.interceptForm(form, true);
-
-								function btnClickHandler(e) {
-									// return if already intercepted
-									if(e.intercepted) return;
-
-									// prevent default
-									e.preventDefault();
-
-									// disable
-									btn.disabled = true;
-
-									// RUN captcha
-									KROT.getSolution().then((sol) => {
-										// write solution to hidden field
-										form.querySelector('#<f:format.htmlspecialchars>{element.uniqueIdentifier}</f:format.htmlspecialchars>').value = JSON.stringify(sol);
-
-										// re-enable button
-										btn.disabled = false;
-										btn.removeAttribute('disabled');
-
-										// prevent
-										e.intercepted = true;
-
-										// remove event
-										btn.removeEventListener('click', btnClickHandler);
-
-										// submit the form
-									    form.requestSubmit(btn);
-									});
-
-									// add eventlistener
-									btn.addEventListener('click', btnClickHandler);
-								}
-								// add eventlistener
-								btn.addEventListener('click', btnClickHandler);
-							});
-						});
-					</script>
+					<f:asset.script defer="1" identifier="captchaeu-frontend" src="EXT:captchaeu_typo3/Resources/Public/JavaScript/Frontend/CaptchaEU.js" />
 				</f:render>
 			</f:then>
 		</f:if>

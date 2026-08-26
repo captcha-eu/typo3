@@ -29,7 +29,10 @@ class ConfigurationViewHelper extends AbstractViewHelper
             'host' => $this->configuration->getHost(),
             'keyPublic' => $this->configuration->getKeyPublic(),
             'SDKJSPath' => $this->configuration->getSDKJSPath(),
-            'enabled' => $this->configuration->isEnabled()
+            'enabled' => $this->configuration->isEnabled(),
+            'mode' => $this->configuration->getMode(),
+            'isWidgetMode' => $this->configuration->isWidgetMode(),
+            'theme' => $this->configuration->getTheme(),
         ];
     }
 }
