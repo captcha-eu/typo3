@@ -10,7 +10,7 @@ See [Documentation](https://docs.captcha.eu/typo3-install?id=-form-beta) for ins
 
 | Version | TYPO3       | PHP         |
 |---------|-------------|-------------|
-| 2.x     | 12.4 - 14.x | 8.2 - 8.4   |
+| 2.x     | 12.4 - 14.x | 8.2 - 8.5   |
 | 1.x     | 11.5 - 13.4 | 8.1 - 8.3   |
 
 ## Installation
