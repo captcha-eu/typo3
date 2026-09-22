@@ -18,17 +18,13 @@ class ConfigurationViewHelper extends AbstractViewHelper
         $this->configuration = $configuration;
     }
 
-    public function initializeArguments(): void
-    {
-        parent::initializeArguments();
-    }
-
     public function render()
     {
         return [
             'host' => $this->configuration->getHost(),
             'keyPublic' => $this->configuration->getKeyPublic(),
             'SDKJSPath' => $this->configuration->getSDKJSPath(),
+            'sdkDataAttributes' => $this->configuration->getSdkDataAttributes(),
             'enabled' => $this->configuration->isEnabled(),
             'mode' => $this->configuration->getMode(),
             'isWidgetMode' => $this->configuration->isWidgetMode(),
