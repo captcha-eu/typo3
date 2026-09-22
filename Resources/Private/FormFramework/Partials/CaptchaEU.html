@@ -9,7 +9,7 @@
 		<f:if condition="{conf.enabled}">
 			<f:then>
 				<f:asset.script defer="1" async="1" identifier="captchaeu" data="{conf.sdkDataAttributes}" src="<f:format.htmlspecialchars>{conf.SDKJSPath}</f:format.htmlspecialchars>" />
-				<f:asset.script defer="1" identifier="captchaeu-init" src="EXT:captchaeu_typo3/Resources/Public/JavaScript/Frontend/captchaeu.js" />
+				<f:asset.script defer="1" identifier="captchaeu-init" src="EXT:captchaeu_typo3/Resources/Public/JavaScript/Frontend/CaptchaEU.js" />
 
 				<f:render partial="Field/Field" arguments="{element: element, doNotShowLabel: 1}" contentAs="elementContent">
 					<f:if condition="{conf.isWidgetMode}">
