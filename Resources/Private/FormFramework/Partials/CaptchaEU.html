@@ -8,12 +8,13 @@
 
 		<f:if condition="{conf.enabled}">
 			<f:then>
-				<f:asset.script defer="1" async="1" identifier="captchaeu" src="<f:format.htmlspecialchars>{conf.SDKJSPath}</f:format.htmlspecialchars>" />
+				<f:asset.script defer="1" async="1" identifier="captchaeu" data="{conf.sdkDataAttributes}" src="<f:format.htmlspecialchars>{conf.SDKJSPath}</f:format.htmlspecialchars>" />
+				<f:asset.script defer="1" identifier="captchaeu-init" src="EXT:captchaeu_typo3/Resources/Public/JavaScript/Frontend/captchaeu.js" />
 
 				<f:render partial="Field/Field" arguments="{element: element, doNotShowLabel: 1}" contentAs="elementContent">
 					<f:if condition="{conf.isWidgetMode}">
 						<f:then>
-							<div class="cpt_widget" data-key="<f:format.htmlspecialchars>{conf.keyPublic}</f:format.htmlspecialchars>" data-theme="<f:format.htmlspecialchars>{conf.theme}</f:format.htmlspecialchars>"></div>
+							<div class="cpt_widget" data-captchaeu-widget-for="{element.uniqueIdentifier}" data-key="{conf.keyPublic}" data-theme="{conf.theme}"></div>
 						</f:then>
 					</f:if>
 
@@ -21,18 +22,9 @@
 						property="{element.identifier}"
 						id="{element.uniqueIdentifier}"
 						value="1"
+						data="{'captchaeu-field': element.uniqueIdentifier, 'captchaeu-public-key': conf.keyPublic, 'captchaeu-host': conf.host, 'captchaeu-mode': conf.mode}"
 						additionalAttributes="{formvh:translateElementProperty(element: element, property: 'fluidAdditionalAttributes')}"
 					/>
-
-					<span
-						data-captchaeu-mode="<f:format.htmlspecialchars>{conf.mode}</f:format.htmlspecialchars>"
-						data-captchaeu-key="<f:format.htmlspecialchars>{conf.keyPublic}</f:format.htmlspecialchars>"
-						data-captchaeu-host="<f:format.htmlspecialchars>{conf.host}</f:format.htmlspecialchars>"
-						data-captchaeu-field-id="<f:format.htmlspecialchars>{element.uniqueIdentifier}</f:format.htmlspecialchars>"
-						style="display:none;"
-					></span>
-
-					<f:asset.script defer="1" identifier="captchaeu-frontend" src="EXT:captchaeu_typo3/Resources/Public/JavaScript/Frontend/CaptchaEU.js" />
 				</f:render>
 			</f:then>
 		</f:if>

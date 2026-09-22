@@ -20,7 +20,7 @@ class ModifyConfigValueEvent
         $this->property = $property;
     }
 
-    public function getValue(): string 
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -40,6 +40,8 @@ class Configuration
 {
 	// defaults
 	public const HOST_DEFAULT = 'https://www.captcha.eu';
+	public const MODE_DEFAULT = 'invisible';
+	public const THEME_DEFAULT = 'light';
 
 	// host
 	protected string $host = '';
@@ -47,10 +49,13 @@ class Configuration
 	// keys
 	protected string $keyPublic = '';
 	protected string $keyREST = '';
+
+	// widget mode ('invisible' or 'widget') and theme ('light', 'dark', 'auto')
+	protected string $mode = self::MODE_DEFAULT;
+	protected string $theme = self::THEME_DEFAULT;
+	protected array $sdkDataAttributes = [];
 	private ?EventDispatcherInterface $eventDispatcher;
 	private ?ServerRequestInterface $request;
-	protected string $mode = 'invisible';
-	protected string $theme = 'light';
 
 	// endpoints
 	protected const EP_VALIDATE = '/validate';
@@ -82,13 +87,51 @@ class Configuration
 		$this->host = trim($siteConfiguration['captchaeu_host'] ?? '');
 		$this->keyPublic = trim($siteConfiguration['captchaeu_key_public'] ?? '');
 		$this->keyREST = trim($siteConfiguration['captchaeu_key_rest'] ?? '');
-		$this->mode = trim($siteConfiguration['captchaeu_mode'] ?? '') ?: 'invisible';
-		$this->theme = trim($siteConfiguration['captchaeu_theme'] ?? '') ?: 'light';
+		$this->mode = trim($siteConfiguration['captchaeu_mode'] ?? '') ?: self::MODE_DEFAULT;
+		$this->theme = trim($siteConfiguration['captchaeu_theme'] ?? '') ?: self::THEME_DEFAULT;
+		$this->sdkDataAttributes = $this->parseSdkDataAttributes(
+			$siteConfiguration['captchaeu_sdk_data_attributes'] ?? []
+		);
 		if ($this->eventDispatcher !== null) {
             $this->host = $this->dispatchValueEvent($this->host, 'host');
             $this->keyPublic = $this->dispatchValueEvent($this->keyPublic, 'keyPublic');
             $this->keyREST = $this->dispatchValueEvent($this->keyREST, 'keyREST');
+            $this->mode = $this->dispatchValueEvent($this->mode, 'mode');
+            $this->theme = $this->dispatchValueEvent($this->theme, 'theme');
         }
+	}
+
+	/**
+	 * Normalises the SDK data-attribute config into a name => value map.
+	 * Accepts an array (YAML map) or a string with one "name=value" per line.
+	 *
+	 * @param mixed $raw
+	 * @return array<string, string>
+	 */
+	protected function parseSdkDataAttributes($raw): array
+	{
+		if (is_array($raw)) {
+			return $raw;
+		}
+
+		if (!is_string($raw) || trim($raw) === '') {
+			return [];
+		}
+
+		$attributes = [];
+		foreach (preg_split('/\r\n|\r|\n/', $raw) as $line) {
+			$line = trim($line);
+			if ($line === '' || strpos($line, '=') === false) {
+				continue;
+			}
+			[$name, $value] = explode('=', $line, 2);
+			$name = trim($name);
+			if ($name !== '') {
+				$attributes[$name] = trim($value);
+			}
+		}
+
+		return $attributes;
 	}
 
 	protected function dispatchValueEvent(string $value, string $property): string
@@ -96,7 +139,7 @@ class Configuration
         if ($this->eventDispatcher === null) {
             return $value;
         }
-        
+
         $event = new ModifyConfigValueEvent($value, $property);
         $event = $this->eventDispatcher->dispatch($event);
         return $event->getValue();
@@ -136,24 +179,34 @@ class Configuration
 		return $this->host ?: self::HOST_DEFAULT;
 	}
 
+	// get widget mode ('invisible' or 'widget')
+	public function getMode(): string
+	{
+		return $this->mode ?: self::MODE_DEFAULT;
+	}
+
+	// true if widget mode is active
+	public function isWidgetMode(): bool
+	{
+		return $this->getMode() === 'widget';
+	}
+
+	// get widget theme
+	public function getTheme(): string
+	{
+		return $this->theme ?: self::THEME_DEFAULT;
+	}
+
+	// extra data-* attributes for the SDK <script> tag
+	public function getSdkDataAttributes(): array
+	{
+		return $this->sdkDataAttributes;
+	}
+
 	// sdk.js path with config host
 	public function getSDKJSPath(): string
 	{
 		// return sdk path with configured host
 		return $this->getHost() . '/sdk.js';
-	}
-	public function getMode(): string
-	{
-		return $this->mode;
-	}
-
-	public function isWidgetMode(): bool
-	{
-		return $this->mode === 'widget';
-	}
-
-	public function getTheme(): string
-	{
-		return $this->theme;
 	}
 }
