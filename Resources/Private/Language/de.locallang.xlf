@@ -1,44 +1,55 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<xliff version="1.0">
-	<file source-language="en" target-language="de" date="2024-02-21T20:05:44+01:00">
-		<body>
-			<trans-unit id="error.solution_invalid">
-         <source>Captcha.eu solution is invalid</source>
-         <target><![CDATA[Captcha.eu L&ouml;sung ist ung&uuml;ltig]]></target>
-			</trans-unit>
-			<trans-unit id="site.configuration.tab">
-				<source>Captcha.eu</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.key_public">
-				<source>Public Key</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.key_rest">
-				<source>REST Key</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.host">
-				<source>Captcha.eu Host</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.mode">
-				<source>Widget Mode</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.mode.invisible">
-				<source>Invisible mode - Form interception (default)</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.mode.widget">
-				<source>Visible widget - Shows a captcha widget on the form</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.theme">
-				<source>Widget Theme</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.theme.light">
-				<source>Light</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.theme.dark">
-				<source>Dark</source>
-			</trans-unit>
-			<trans-unit id="site.configuration.theme.auto">
-				<source>Auto</source>
-			</trans-unit>
-		</body>
-	</file>
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="de" datatype="plaintext">
+        <body>
+            <trans-unit id="error.solution_invalid">
+                <source>Captcha.eu solution is invalid</source>
+                <target>Captcha.eu-Lösung ist ungültig</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.tab">
+                <source>Captcha.eu</source>
+                <target>Captcha.eu</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.key_public">
+                <source>Public Key</source>
+                <target>Public-Key</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.key_rest">
+                <source>REST Key</source>
+                <target>REST-Key</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.host">
+                <source>Captcha.eu Host</source>
+                <target>Captcha.eu-Host</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.mode">
+                <source>Widget Mode</source>
+                <target>Widget-Modus</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.mode.invisible">
+                <source>Invisible mode - Form interception (default)</source>
+                <target>Unsichtbarer Modus –(Standard)</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.mode.widget">
+                <source>Visible widget - Shows a captcha widget on the form</source>
+                <target>Sichtbares Widget – zeigt ein CAPTCHA-Widget im Formular an</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.theme">
+                <source>Widget Theme</source>
+                <target>Widget-Design</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.theme.light">
+                <source>Light</source>
+                <target>Hell</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.theme.dark">
+                <source>Dark</source>
+                <target>Dunkel</target>
+            </trans-unit>
+            <trans-unit id="site.configuration.theme.auto">
+                <source>Auto</source>
+                <target>Automatisch</target>
+            </trans-unit>
+        </body>
+    </file>
 </xliff>
